@@ -88,7 +88,6 @@ public class NotificationController {
 		try {
 			d = format.parse(dateTime);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
