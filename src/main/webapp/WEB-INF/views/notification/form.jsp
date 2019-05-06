@@ -4,13 +4,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!-- taglib de forms do spring -->
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="${ctx}/webjars/bootstrap/css/bootstrap.min.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -51,8 +50,8 @@
 			<button type="submit">Enviar Notificação</button>
 		</form:form>
 	</div>
-	<script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
-	<script src="/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${ctx}/webjars/jquery/3.0.0/jquery.min.js"></script>
+	<script src="${ctx}/webjars/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="${ctx}/webjars/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
