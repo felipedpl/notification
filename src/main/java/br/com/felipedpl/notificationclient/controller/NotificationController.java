@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.felipedpl.notificationclient.model.InfoResponse;
 import br.com.felipedpl.notificationclient.model.Notification;
 import br.com.felipedpl.notificationclient.model.NotificationSender;
+import br.com.felipedpl.notificationclient.model.Push;
+import br.com.felipedpl.notificationclient.model.PushDTOModel;
 import br.com.felipedpl.notificationclient.properties.NotificationProperties;
 
 @Controller
@@ -94,5 +97,36 @@ public class NotificationController {
 		format.applyPattern("yyyyMMdd HH:mm:ss");
 		//"yyyyMMdd HH:mm:ss"
 		return format.format(d);
+	}
+	
+	@GetMapping("/form/push")
+	public ModelAndView getFormPush(Model model) {
+		return new ModelAndView("/notification/push");	
+	}
+	
+	@PostMapping("/form/send/push")
+	public ModelAndView processingFormPush(Push push, RedirectAttributes attributes) {
+		System.out.println("Received: " + push);
+		InfoResponse resp = makeRequest(push);
+		attributes.addFlashAttribute("message", resp.getReturnDescription());
+		return new ModelAndView("redirect:/index");
+	}
+
+	private InfoResponse makeRequest(Push push) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		HttpEntity<PushDTOModel> entity = new HttpEntity<>(
+				new PushDTOModel("OPEN_APP", push.getTitle(), push.getBody()), header);
+		
+		String url = properties.getUrl();
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
+				.queryParam("establishments", push.getEstablishments());
+		
+		ResponseEntity<HttpMethod> response = restTemplate.exchange(uriBuilder.toUriString(), 
+				HttpMethod.POST, entity, HttpMethod.class);
+		System.out.println("Response Status: " + response.getStatusCode());
+		
+		return new InfoResponse(response.getStatusCode().toString(), "PUSH enviado com sucesso!");
 	}
 }

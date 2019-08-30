@@ -14,9 +14,13 @@
 	<div class="container">
 		<h2 class="hello-title">${message}</h2>
 
-		<form:form servletRelativeAction="/notification/form" method="get">
+<%-- 		<form:form servletRelativeAction="/notification/form" method="get">
 
 			<button type="submit">Nova Notificação</button>
+		</form:form> --%>
+		<form:form servletRelativeAction="/notification/form/push" method="get">
+
+			<button type="submit">Novo PUSH</button>
 		</form:form>
 	</div>
 	<script src="${ctx}/webjars/jquery/3.0.0/jquery.min.js"></script>
